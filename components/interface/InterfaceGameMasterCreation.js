@@ -16,17 +16,18 @@ export class InterfaceGameMasterCreation extends Component {
   }
   onValidate(){
     const { gameTitle,playerNumbers,poachersNumbers } = this.state;
-    
+    const GameId = new Date().getTime().toString()
+    console.log(gameTitle)
     
     firebase.firestore().collection('games')
-    .doc(new Date().getTime().toString())
+    .doc(GameId)
     .set({
       gameTitle: gameTitle,
       playerNumbers: playerNumbers,
       poachersNumbers: poachersNumbers
   })
   .then((docRef) => {
-      console.log("Document written with ID: ", docRef);
+    this.props.navigation.navigate('GameScreenGameMaster',{ GameId  : GameId })
   })
   .catch((error) => {
       console.error("Error adding document: ", error);

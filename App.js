@@ -22,6 +22,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './components/Landing'
 import InterfaceGameMasterCreation from './components/interface/InterfaceGameMasterCreation'
 import InterfacePlayerJoin from './components/interface/InterfacePlayerJoin'
+import GameScreenPlayer from './components/gameScreen/GameScreenPlayer'
+import GameScreenGameMaster from './components/gameScreen/GameScreenGameMaster'
+
 
  const Stack = createStackNavigator();
  import React, { Component } from 'react'
@@ -43,6 +46,8 @@ import InterfacePlayerJoin from './components/interface/InterfacePlayerJoin'
           <Stack.Screen name='Landing' component={LandingScreen} options={{headerShown: false}} />
           <Stack.Screen name='InterfaceGameMasterCreation' component={InterfaceGameMasterCreation} options={{headerShown: false}} />
           <Stack.Screen name='InterfacePlayerJoin' component={InterfacePlayerJoin} options={{headerShown: false}} />
+          <Stack.Screen name='GameScreenPlayer' component={GameScreenPlayer} options={{headerShown: false}} />
+          <Stack.Screen name='GameScreenGameMaster' component={GameScreenGameMaster} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     )
