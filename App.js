@@ -36,9 +36,6 @@ import GameScreenGameMaster from './components/gameScreen/GameScreenGameMaster'
       loaded : false
     }
   }
-  componentDidMount(){
-
-  }
    render() {
     return (
       <NavigationContainer>

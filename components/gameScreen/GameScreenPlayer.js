@@ -13,6 +13,7 @@ export class GameScreenPlayer extends Component {
   JoinGame(){
     const { nickName } = this.state;
     console.log(nickName)
+    // TODO : Add player in game with GameId - Check InterfaceGameMasterCreation
   }
   render() {
     return (

@@ -10,6 +10,8 @@ export class InterfacePlayerJoin extends Component {
     this.state = {
       dataSource : []
     }
+    // Get All Game 
+    // TODO : Check if Game is not Finish - Add Parameter in DB 
     this.collectionGames = firebase.firestore().collection('games')
   }
 
@@ -19,9 +21,9 @@ export class InterfacePlayerJoin extends Component {
 
   gamesList = (gamesSnapShot) =>{ gamesSnapShot
   const Games = [];
+  // Map GameList
   gamesSnapShot.forEach((doc) => {
   const {gameTitle, poachersNumbers, playerNumbers} = doc.data();
-  console.log(gameTitle)
   Games.push({
       poachersNumbers,
       playerNumbers,

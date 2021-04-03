@@ -16,9 +16,9 @@ export class InterfaceGameMasterCreation extends Component {
   }
   onValidate(){
     const { gameTitle,playerNumbers,poachersNumbers } = this.state;
-    const GameId = new Date().getTime().toString()
-    console.log(gameTitle)
+    const GameId = new Date().getTime().toString() // Timestamp
     
+    // Add new game
     firebase.firestore().collection('games')
     .doc(GameId)
     .set({
@@ -27,6 +27,7 @@ export class InterfaceGameMasterCreation extends Component {
       poachersNumbers: poachersNumbers
   })
   .then((docRef) => {
+    // Redirection to screen Master
     this.props.navigation.navigate('GameScreenGameMaster',{ GameId  : GameId })
   })
   .catch((error) => {
