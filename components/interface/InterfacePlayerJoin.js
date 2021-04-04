@@ -23,8 +23,10 @@ export class InterfacePlayerJoin extends Component {
   const Games = [];
   // Map GameList
   gamesSnapShot.forEach((doc) => {
+    let  docID = doc.id
   const {gameTitle, poachersNumbers, playerNumbers} = doc.data();
   Games.push({
+      docID,
       poachersNumbers,
       playerNumbers,
       gameTitle
@@ -44,10 +46,10 @@ export class InterfacePlayerJoin extends Component {
           dataSource.map((item, i) => (
               <ListItem 
                 key={i} bottomDivider
-                onPress={() => this.props.navigation.navigate("GameScreenPlayer") }
+                onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.docID, gameTitle: item.gameTitle }) }
               >
                 <ListItem.Content>
-                  <ListItem.Title>{item.gameTitle}</ListItem.Title>
+                  <ListItem.Title>{item.gameTitle}  </ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron/>
               </ListItem>

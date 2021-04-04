@@ -24,6 +24,7 @@ import InterfaceGameMasterCreation from './components/interface/InterfaceGameMas
 import InterfacePlayerJoin from './components/interface/InterfacePlayerJoin'
 import GameScreenPlayer from './components/gameScreen/GameScreenPlayer'
 import GameScreenGameMaster from './components/gameScreen/GameScreenGameMaster'
+import GameScreenPLayersCard from './components/gameScreen/GameScreenPLayersCard'
 
 
  const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ import GameScreenGameMaster from './components/gameScreen/GameScreenGameMaster'
           <Stack.Screen name='InterfacePlayerJoin' component={InterfacePlayerJoin} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenPlayer' component={GameScreenPlayer} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenGameMaster' component={GameScreenGameMaster} options={{headerShown: false}} />
+          <Stack.Screen name='GameScreenPLayersCard' component={GameScreenPLayersCard} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     )

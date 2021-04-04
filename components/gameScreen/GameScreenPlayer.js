@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { SafeAreaView ,View, Button, TextInput, Text, StyleSheet } from 'react-native'
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 export class GameScreenPlayer extends Component {
   constructor(props) {
     super(props);
@@ -11,14 +14,31 @@ export class GameScreenPlayer extends Component {
     this.JoinGame = this.JoinGame.bind(this)
   }
   JoinGame(){
+    // const GameId = new Date().getTime().toString() // Timestamp
     const { nickName } = this.state;
-    console.log(nickName)
-    // TODO : Add player in game with GameId - Check InterfaceGameMasterCreation
+    const { docID } = this.props.route.params;
+
+    firebase.firestore().collection('players')
+    .doc(docID)
+    .set({
+      nickName: nickName,
+      docID: docID
+    })
+    .then((docRef) => {
+      this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName })
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+    });
   }
   render() {
+    const { gameTitle } = this.props.route.params;
     return (
       <SafeAreaView style={styles.container} >
-        <Text> Salle d'attente  -  Choix du surnom</Text>
+
+        <Text> Salle d'attente </Text>
+        <Text> Nom de la partie : { gameTitle }</Text>
+
         <TextInput
           placeholder="Choix du surnom"
           onChangeText = {(nickName) => this.setState({ nickName })}
