@@ -12,30 +12,58 @@ export class InterfacePlayerJoin extends Component {
     }
     // Get All Game 
     // TODO : Check if Game is not Finish - Add Parameter in DB 
-    this.collectionGames = firebase.firestore().collection('games')
+    // this.collectionGames = firebase.firestore().collection('games')
+//     var starCountRef = firebase.database().ref('Games/');
+// starCountRef.on('value', (snapshot) => {
+//   const data = snapshot.val();
+//   // updateStarCount(postElement, data);
+// });
+
+// firebase.database().ref('Games/').once('value', function (snapshot) {
+//   console.log(snapshot.val())
+// });
+
   }
 
   componentDidMount(){
-    this.unsubscribe = this.collectionGames.onSnapshot(this.gamesList);
+    
+    firebase.database().ref('Games/-MXWvfxeXHvCamizhVmW').on('value', (snapshot) => {
+      const data = snapshot.val();
+      console.log(Object.keys(data))
+      //data.forEach(element => console.log(element))
+      console.log(data.gameTitle)
+      
+    });
+    
+    
+    
+    
+    // (snapshot) {
+    //   const Data = snapshot.val()
+    //   Data.forEach(item => {
+    //     console.log(item.gameTitle)
+    //   })
+    // });
+    //this.unsubscribe = this.collectionGames.onSnapshot(this.gamesList);
   }
 
-  gamesList = (gamesSnapShot) =>{ gamesSnapShot
-  const Games = [];
-  // Map GameList
-  gamesSnapShot.forEach((doc) => {
-    let  docID = doc.id
-  const {gameTitle, poachersNumbers, playerNumbers} = doc.data();
-  Games.push({
-      docID,
-      poachersNumbers,
-      playerNumbers,
-      gameTitle
-    });
-  });
-  this.setState({
-    dataSource : Games,
-  });
-}
+//   gamesList = (gamesSnapShot) =>{ gamesSnapShot
+//   const Games = [];
+//   // Map GameList
+//   gamesSnapShot.forEach((doc) => {
+//     let  docID = doc.id
+//   const {gameTitle, poachersNumbers, playerNumbers} = doc.data();
+//   Games.push({
+//       docID,
+//       poachersNumbers,
+//       playerNumbers,
+//       gameTitle
+//     });
+//   });
+//   this.setState({
+//     dataSource : Games,
+//   });
+// }
 
   render() {
     const {dataSource} = this.state
