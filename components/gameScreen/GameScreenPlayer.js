@@ -16,7 +16,7 @@ export class GameScreenPlayer extends Component {
   JoinGame(){
     // const GameId = new Date().getTime().toString() // Timestamp
     const { nickName } = this.state;
-    const { docID } = this.props.route.params;
+    const { docID, gameTitle } = this.props.route.params;
 
     firebase.firestore().collection('players')
     .doc(docID)
@@ -25,7 +25,7 @@ export class GameScreenPlayer extends Component {
       docID: docID
     })
     .then((docRef) => {
-      this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName })
+      this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle })
     })
     .catch((error) => {
         console.error("Error adding document: ", error);

@@ -4,9 +4,13 @@ import { SafeAreaView ,View, Button, TextInput, Text, StyleSheet } from 'react-n
 
 export class GameScreenPLayersCard extends Component {
   render() {
+    const { gameTitle, nickName} = this.props.route.params;
     return (
       <View style={styles.container} >
-        <Text> Card Screen </Text>
+        <Text> Nom de la partie : {gameTitle} </Text>
+        <Text> Surnom : {nickName} </Text>
+        <Text> Statut : En attente de lancement </Text>
+        <Text> Card </Text>
       </View>
     )
   }

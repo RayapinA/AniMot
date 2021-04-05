@@ -28,7 +28,7 @@ export class InterfaceGameMasterCreation extends Component {
   })
   .then((docRef) => {
     // Redirection to screen Master
-    this.props.navigation.navigate('GameScreenGameMaster',{ GameId  : GameId })
+    this.props.navigation.navigate('GameScreenGameMaster',{ GameId  : GameId, gameTitle : gameTitle, poachersNumbers: poachersNumbers, playerNumbers: playerNumbers })
   })
   .catch((error) => {
       console.error("Error adding document: ", error);
