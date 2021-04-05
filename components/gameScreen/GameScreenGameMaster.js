@@ -22,16 +22,12 @@ export class GameScreenGameMaster extends Component {
     console.log('newPlayer')
     console.log(newPlayer)
 
-    firebase.database().ref('Games/'+gameKey).on('value', (snapshot) => {
+    firebase.database().ref('Games/'+ gameKey).on('value', (snapshot) => {
       const data = snapshot.val();
-      console.log(Object.keys(data))
-      console.log(data)
       const playerInDb = Object.keys(data.Users).length
       this.setState({
         playerInGame : playerInDb,
       });
-      //data.forEach(element => console.log(element))
-      
     });
   }
 
