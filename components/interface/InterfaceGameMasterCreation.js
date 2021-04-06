@@ -88,4 +88,5 @@ export class InterfaceGameMasterCreation extends Component {
   }
 }
 
+
 export default InterfaceGameMasterCreation
