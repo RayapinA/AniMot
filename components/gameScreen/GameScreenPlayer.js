@@ -43,14 +43,8 @@ export class GameScreenPlayer extends Component {
       .then(() => {
         console.log('Player Created.', newPlayer.key )
 
-        // this.props.navigation.navigate('GameScreenGameMaster',
-        // { GameId  : GameId,
-        //   gameTitle : gameTitle,
-        //   poachersNumbers: poachersNumbers,
-        //   playerNumbers: playerNumbers,
-        //   gameKey : newGame.key,
-        //   newPlayer : newPlayer.key
-        // })
+        this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle })
+
       });
   }
   render() {
