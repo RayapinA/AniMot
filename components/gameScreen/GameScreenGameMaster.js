@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Button, TextInput, Text, StyleSheet } from 'react-native'
+import { SafeAreaView, Button, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { View } from 'react-native';
 
 export class GameScreenGameMaster extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export class GameScreenGameMaster extends Component {
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
+  
   componentDidMount(){
     
     const { GameId, gameTitle, gameKey, newPlayer } = this.props.route.params;
@@ -30,6 +32,7 @@ export class GameScreenGameMaster extends Component {
       });
     });
   }
+  
 
   onValidateGame(){
     const { GameId, gameTitle } = this.props.route.params;
@@ -58,17 +61,29 @@ export class GameScreenGameMaster extends Component {
   render() {
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
     const { playerInGame } = this.state
+
+    const AppButton = ({ onPress, title }) => (
+      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+        <Text style={styles.appButtonText}>{title}</Text>
+      </TouchableOpacity>
+    );
+
     return (
       
       <SafeAreaView style={styles.container}>
-        <Text> Ecran de jeu Game Masterr  </Text>
+        <View style={styles.titleCreation}>
+          <Text style={styles.titleText}> Attente de joueurs ...  </Text>
+          <Text style={{textAlign:'center'}}> Ecran de jeu Game Masterr  </Text>
+        </View>
         <Text> Nom de la partie : {gameTitle} </Text>
         <Text> Nmbre de joueurs autorisé : {playerInGame} / {playerNumbers} </Text>
         <Text> Nombre de braconniers : {poachersNumbers} </Text>
 
-        <Button 
+        <AppButton 
           title="Valider la partie"
-          onPress={() => this.onValidateGame() }
+          size="sm" 
+          backgroundColor="#1f8416"
+          onPress= {() => this.onValidateGame() }
         />
       </SafeAreaView>
     )
@@ -78,8 +93,35 @@ export class GameScreenGameMaster extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
     marginTop:50
   },
+  titleCreation: {
+    marginBottom: 30,
+  },
+  titleText : {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#0c6904',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+  },
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#0c6904",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop:20
+  },
+  appButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  }
 });
 
 export default GameScreenGameMaster

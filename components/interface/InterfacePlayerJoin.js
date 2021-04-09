@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Button, TextInput,FlatList, Text, StyleSheet, SafeAreaView } from 'react-native'
+import { View, Button, TextInput,FlatList, Text, StyleSheet, SafeAreaView , ScrollView } from 'react-native'
 import { ListItem, Icon } from 'react-native-elements'
 
 import * as firebase from 'firebase';
@@ -26,63 +26,41 @@ export class InterfacePlayerJoin extends Component {
   }
 
   componentDidMount(){
-    
-    firebase.database().ref('Games/-MXWvfxeXHvCamizhVmW').on('value', (snapshot) => {
-      const data = snapshot.val();
-      console.log(Object.keys(data))
-      //data.forEach(element => console.log(element))
-      console.log(data.gameTitle)
-      
+    const Games = [];
+    var ref = firebase.database().ref('Games/')
+    ref.orderByKey().on("child_added", function(snapshot) {
+      Games.push({
+              docID : snapshot.key,
+              gameTitle : snapshot.val().gameTitle
+            });
+    })
+    this.setState({
+      dataSource : Games,
     });
-    
-    
-    
-    
-    // (snapshot) {
-    //   const Data = snapshot.val()
-    //   Data.forEach(item => {
-    //     console.log(item.gameTitle)
-    //   })
-    // });
-    //this.unsubscribe = this.collectionGames.onSnapshot(this.gamesList);
   }
-
-//   gamesList = (gamesSnapShot) =>{ gamesSnapShot
-//   const Games = [];
-//   // Map GameList
-//   gamesSnapShot.forEach((doc) => {
-//     let  docID = doc.id
-//   const {gameTitle, poachersNumbers, playerNumbers} = doc.data();
-//   Games.push({
-//       docID,
-//       poachersNumbers,
-//       playerNumbers,
-//       gameTitle
-//     });
-//   });
-//   this.setState({
-//     dataSource : Games,
-//   });
-// }
 
   render() {
     const {dataSource} = this.state
     
     return (
       <SafeAreaView style={styles.container}>
+        <Text style={ styles.titre}> Liste de parties </Text>
+        <ScrollView showsVerticalScrollIndicator={false} > 
         {
           dataSource.map((item, i) => (
               <ListItem 
                 key={i} bottomDivider
                 onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.docID, gameTitle: item.gameTitle }) }
+                style={{opacity:0.8,marginBottom:5, marginTop:5}}
               >
                 <ListItem.Content>
-                  <ListItem.Title>{item.gameTitle}  </ListItem.Title>
+                  <ListItem.Title style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black',}}> {item.gameTitle} </ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron/>
               </ListItem>
             ))
           }
+          </ScrollView>
       </SafeAreaView>
     )
   }
@@ -91,6 +69,7 @@ export class InterfacePlayerJoin extends Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
+   padding: 16,
    marginTop:50,
   },
   item: {
@@ -98,6 +77,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 44,
   },
-});
+  titre : {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#0c6904',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+    marginBottom: 20
+  }
+})
 
 export default InterfacePlayerJoin

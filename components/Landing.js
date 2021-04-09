@@ -11,15 +11,6 @@ export default function Landing({navigation}) {
   
   return (
     <View style={styles.container}>
-      {/* <Button 
-        title="Créer une partie"
-        onPress= {() => navigation.navigate('InterfaceGameMasterCreation')}
-      />  */}
-      {/* TODO check if game.length > 0  */}
-      {/* <Button 
-        title="Rejoindre une partie"
-        onPress= {() => navigation.navigate('InterfacePlayerJoin')}
-      /> */}
       <Text style={styles.titre} > Ani'mot</Text>
       <View style={styles.viewButton} >
         <AppButton 
