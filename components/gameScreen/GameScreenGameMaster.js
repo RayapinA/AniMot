@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Button, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { SafeAreaView, Button, TextInput, Text, StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native'
+import { ListItem, Icon } from 'react-native-elements'
+
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { View } from 'react-native';
 
 export class GameScreenGameMaster extends Component {
   constructor(props) {
@@ -11,18 +12,19 @@ export class GameScreenGameMaster extends Component {
       gameTitle: '',
       playerNumbers: '',
       poachersNumbers: '',
-      playerInGame : 0
+      playerInGame : 0,
+      dataSource : []
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
   
   componentDidMount(){
-    
+    const Users = [];
     const { GameId, gameTitle, gameKey, newPlayer } = this.props.route.params;
-    console.log('gameKey')
-    console.log(gameKey)
-    console.log('newPlayer')
-    console.log(newPlayer)
+    // console.log('gameKey')
+    // console.log(gameKey)
+    // console.log('newPlayer')
+    // console.log(newPlayer)
 
     firebase.database().ref('Games/' + gameKey).on('value', (snapshot) => {
       const data = snapshot.val();
@@ -31,6 +33,20 @@ export class GameScreenGameMaster extends Component {
         playerInGame : playerInDb,
       });
     });
+
+
+    const FirebaseUsers = firebase.database().ref('Games/' + gameKey +'/Users')
+    FirebaseUsers.orderByKey().on("child_added", function(snapshot) {
+      Users.push({
+        userID : snapshot.key,
+        Pseudo : snapshot.val().Pseudo
+      });
+    });
+    this.setState({
+      dataSource : Users,
+    });
+
+    
   }
   
 
@@ -60,7 +76,7 @@ export class GameScreenGameMaster extends Component {
   }
   render() {
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
-    const { playerInGame } = this.state
+    const { playerInGame, dataSource } = this.state
 
     const AppButton = ({ onPress, title }) => (
       <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
@@ -73,7 +89,22 @@ export class GameScreenGameMaster extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.titleCreation}>
           <Text style={styles.titleText}> Attente de joueurs ...  </Text>
-          <Text style={{textAlign:'center'}}> Ecran de jeu Game Masterr  </Text>
+          <ScrollView showsVerticalScrollIndicator={false} > 
+        {
+          dataSource.map((item, i) => (
+              <ListItem 
+                key={i} bottomDivider
+                // onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.userID, gameTitle: item.Pseudo }) }
+                style={{opacity:0.8,marginBottom:5, marginTop:5}}
+              >
+                <ListItem.Content>
+                  <ListItem.Title style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black',}}> {item.Pseudo} </ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron/>
+              </ListItem>
+            ))
+          }
+          </ScrollView>
         </View>
         <Text> Nom de la partie : {gameTitle} </Text>
         <Text> Nmbre de joueurs autorisé : {playerInGame} / {playerNumbers} </Text>
