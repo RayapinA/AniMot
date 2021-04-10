@@ -42,6 +42,7 @@ export class InterfaceGameMasterCreation extends Component {
       poachersNumbers : poachersNumbers
     })
     .then(() => {
+      
       console.log('Game Created.', newGame.key )
 
       const newPlayer = firebase.database()

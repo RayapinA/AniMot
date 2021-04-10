@@ -12,74 +12,53 @@ export class GameScreenGameMaster extends Component {
       gameTitle: '',
       playerNumbers: '',
       poachersNumbers: '',
-      playerInGame : 0,
-      dataSource : []
+      dataSource : [],
+      disabled : true
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
   
   componentDidMount(){
     const Users = [];
-    const { GameId, gameTitle, gameKey, newPlayer } = this.props.route.params;
-    // console.log('gameKey')
-    // console.log(gameKey)
-    // console.log('newPlayer')
-    // console.log(newPlayer)
-
-    firebase.database().ref('Games/' + gameKey).on('value', (snapshot) => {
-      const data = snapshot.val();
-      const playerInDb = Object.keys(data.Users).length
-      this.setState({
-        playerInGame : playerInDb,
-      });
-    });
-
-
+    const { gameKey } = this.props.route.params;
+    const self = this
+    const { playerInGame } = this.state
     const FirebaseUsers = firebase.database().ref('Games/' + gameKey +'/Users')
+
     FirebaseUsers.orderByKey().on("child_added", function(snapshot) {
       Users.push({
         userID : snapshot.key,
         Pseudo : snapshot.val().Pseudo
       });
+      self.setState({
+        dataSource : Users,
+        playerInGame : Users.length,
+      });
     });
-    this.setState({
-      dataSource : Users,
-    });
-
-    
   }
   
 
   onValidateGame(){
-    const { GameId, gameTitle } = this.props.route.params;
-    
-    console.log(GameId)
-    console.log(gameTitle)
-    // console.log(GameId)
-    // console.log(GameId)
-    // console.log(GameId)
-    // Add new game
-  //   firebase.firestore().collection('games')
-  //   .doc(GameId)
-  //   .set({
-  //     gameTitle: gameTitle,
-  //     playerNumbers: playerNumbers,
-  //     poachersNumbers: poachersNumbers
-  // })
-  // .then((docRef) => {
-  //   // Redirection to screen Master
-  //   this.props.navigation.navigate('GameScreenGameMaster',{ GameId  : GameId, gameTitle : gameTitle, poachersNumbers: poachersNumbers, playerNumbers: playerNumbers })
-  // })
-  // .catch((error) => {
-  //     console.error("Error adding document: ", error);
-  // });
+    const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
+
+    const Game = firebase.database()
+      .ref('/Games')
+      .child( gameKey);
+
+      Game
+      .update({
+        Status : 'OK',
+      })
+      .then(() => {
+        console.log('VALIDER LA PARTIE')
+      });
   }
   render() {
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
-    const { playerInGame, dataSource } = this.state
+    const { playerInGame, dataSource, disabled } = this.state
 
-    const AppButton = ({ onPress, title }) => (
-      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+    const AppButton = ({ onPress, title, disabled }) => (
+      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer} disabled={disabled}>
         <Text style={styles.appButtonText}>{title}</Text>
       </TouchableOpacity>
     );
@@ -100,19 +79,19 @@ export class GameScreenGameMaster extends Component {
                 <ListItem.Content>
                   <ListItem.Title style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black',}}> {item.Pseudo} </ListItem.Title>
                 </ListItem.Content>
-                <ListItem.Chevron/>
               </ListItem>
             ))
           }
           </ScrollView>
         </View>
-        <Text> Nom de la partie : {gameTitle} </Text>
-        <Text> Nmbre de joueurs autorisé : {playerInGame} / {playerNumbers} </Text>
-        <Text> Nombre de braconniers : {poachersNumbers} </Text>
+        <Text style={styles.titleTextContent}> Nom de la partie : {gameTitle} </Text>
+        <Text style={styles.titleTextContent}> Nmbre de joueurs autorisé : {playerInGame} / {playerNumbers} </Text>
+        <Text style={styles.titleTextContent}> Nombre de braconniers : {poachersNumbers} </Text>
 
         <AppButton 
           title="Valider la partie"
-          size="sm" 
+          size="sm"
+          disabled={disabled}
           backgroundColor="#1f8416"
           onPress= {() => this.onValidateGame() }
         />
@@ -132,6 +111,14 @@ const styles = StyleSheet.create({
   },
   titleText : {
     fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#0c6904',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+  },
+  titleTextContent : {
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#0c6904',

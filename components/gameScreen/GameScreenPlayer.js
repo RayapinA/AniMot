@@ -9,7 +9,7 @@ export class GameScreenPlayer extends Component {
     super(props);
     this.state = {
       gameId: '',
-      nickName: ''
+      nickName: '',
     }
     this.JoinGame = this.JoinGame.bind(this)
   }
@@ -17,20 +17,25 @@ export class GameScreenPlayer extends Component {
     // const GameId = new Date().getTime().toString() // Timestamp
     const { nickName } = this.state;
     const { docID, gameTitle } = this.props.route.params;
+    var playersIn = 0
+    var playersAutorise = 0
 
-    // firebase.firestore().collection('players')
-    // .doc(docID)
-    // .set({
-    //   nickName: nickName,
-    //   docID: docID
-    // })
-    // .then((docRef) => {
-    //   this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle })
-    // })
-    // .catch((error) => {
-    //     console.error("Error adding document: ", error);
-    // });
+    var ref = firebase.database().ref('Games/'+ docID +'/Users')
+    ref.orderByKey().on("child_added", function(snapshot) {
+      const data = snapshot.val();
+      playersIn = Object.keys(data).length
+      // console.log(playersIn)
+      // playersIn = Object.keys(snapshot.val().Users).length
+      // playersAutorise = snapshot.val().playerNumbers
+    })
+   
+    console.log('playerInDb',playersIn)
+    console.log('playerNumbers',playersAutorise)
 
+    if(playersIn >= playersAutorise){
+      console.log('here')
+      this.props.navigation.navigate('Landing')
+    }
     const newPlayer = firebase.database()
       .ref('/Games/'+ docID +'/Users')
       .push();
