@@ -1,16 +1,39 @@
 import React, { Component } from 'react'
 import { SafeAreaView ,View, Button, TextInput, Text, StyleSheet } from 'react-native'
 
-
+import * as firebase from 'firebase';
+import 'firebase/firestore'; 
 export class GameScreenPLayersCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      animot : "VIDE"
+    }
+  }
+
+  componentDidMount(){
+    const { UserID, gameKey } = this.props.route.params;
+    const self = this
+    const FirebaseUsers = firebase.database().ref('Games/' + gameKey +'/Users/'+ UserID)
+
+    FirebaseUsers.on("value", function(snapshot) {
+      self.setState({
+        animot : snapshot.val()['AniMot'],
+      });
+      console.log()
+    });
+  }
+
   render() {
     const { gameTitle, nickName} = this.props.route.params;
+    const { animot } = this.state
     return (
       <View style={styles.container} >
         <Text style={styles.titre} > {gameTitle} </Text>
         <Text style={styles.nickName} > Surnom : {nickName} </Text>
         <Text> Statut : En attente de lancement </Text>
         <Text> Card </Text>
+        <Text> {animot} </Text>
       </View>
     )
   }

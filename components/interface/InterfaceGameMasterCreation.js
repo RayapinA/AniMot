@@ -39,7 +39,8 @@ export class InterfaceGameMasterCreation extends Component {
     .set({
       gameTitle:gameTitle,
       playerNumbers: playerNumbers,
-      poachersNumbers : poachersNumbers
+      poachersNumbers : poachersNumbers,
+      Status: 'Waiting'
     })
     .then(() => {
       
@@ -53,6 +54,7 @@ export class InterfaceGameMasterCreation extends Component {
       .set({
         Pseudo : Pseudo,
         Role : "Admin",
+        AniMot : ''
       })
       .then(() => {
         console.log('Player Created.', newPlayer.key )

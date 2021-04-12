@@ -30,6 +30,8 @@ import InterfacePlayerJoin from './components/interface/InterfacePlayerJoin'
 import GameScreenPlayer from './components/gameScreen/GameScreenPlayer'
 import GameScreenGameMaster from './components/gameScreen/GameScreenGameMaster'
 import GameScreenPLayersCard from './components/gameScreen/GameScreenPLayersCard'
+import CardGameMaster from './components/card/CardGameMaster'
+import CardPlayer from './components/card/CardPlayer'
 
 
  const Stack = createStackNavigator();
@@ -52,6 +54,8 @@ import GameScreenPLayersCard from './components/gameScreen/GameScreenPLayersCard
           <Stack.Screen name='GameScreenPlayer' component={GameScreenPlayer} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenGameMaster' component={GameScreenGameMaster} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenPLayersCard' component={GameScreenPLayersCard} options={{headerShown: false}} />
+          <Stack.Screen name='CardGameMaster' component={CardGameMaster} options={{headerShown: false}} />
+          <Stack.Screen name='CardPlayer' component={CardPlayer} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     )

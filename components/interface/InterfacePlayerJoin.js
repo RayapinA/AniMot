@@ -25,21 +25,18 @@ export class InterfacePlayerJoin extends Component {
 
   }
 
-  UNSAFE_componentWillMount(){
+  componentDidMount(){
     const Games = [];
     var ref = firebase.database().ref('Games/')
     ref.orderByKey().on("child_added", function(snapshot) {
       const data = snapshot.val();
-      if(snapshot.val().Users != undefined){
-        console.log(Object.keys(snapshot.val().Users).length)
-        console.log(snapshot.val().Users)
-      }else{
-        console.log('dead')
+      if(snapshot.val().Users == undefined){
+        console.log('Users is undefined')
+        return false
       }
       
-      const playerInDb = 0 //const playerInDb = Object.keys(data.Users).length
+      const playerInDb = Object.keys(snapshot.val().Users).length //const playerInDb = Object.keys(data.Users).length
       if(playerInDb != undefined && playerInDb < data.playerNumbers){
-        console.log('Passage dans la boucle pour recuperer les parties ----------')
         Games.push({
           docID : snapshot.key,
           gameTitle : data.gameTitle

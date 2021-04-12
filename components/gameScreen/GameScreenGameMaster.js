@@ -13,7 +13,7 @@ export class GameScreenGameMaster extends Component {
       playerNumbers: '',
       poachersNumbers: '',
       dataSource : [],
-      disabled : true
+      disabled : false
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
@@ -37,9 +37,46 @@ export class GameScreenGameMaster extends Component {
     });
   }
   
+  attributeAnimotPlayer(){
+    const { dataSource } = this.state
+    const aniMot = ['ours','bizon','oiseaux']
+    return new Promise((successCallback, failureCallback) => {
+      console.log("C'est fait");
+      dataSource.forEach(item => {
+      item.AniMot = aniMot[0]
+    })
+      // TODOS :: verifier si tout le bon nombre de joeurus possede l'attribut animot et il reste suffisament pour les braconniers
+      
+        successCallback("Réussite");
+    })
+  }
 
   onValidateGame(){
+    //TODOS : recuperer tout les utilisateur et attribué une card a chacun en fonction d'un jeu aleatoire
     const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
+    const { dataSource } = this.state
+    const aniMot = ['ours','bizon','oiseaux']
+    this.attributeAnimotPlayer().then(() => {
+      dataSource.forEach(element => {
+        let Players = firebase.database()
+        .ref('/Games/'+ gameKey +'/Users/')
+        .child(element.userID);
+
+        Players
+        .update({
+          AniMot : element.AniMot,
+        })
+        .then(() => {
+          console.log('VALIDER LA PARTIE')
+          // this.props.navigation.navigate("CardGameMaster",{})
+        });
+      });
+    })
+    
+    // setTimeout(() => {
+    //   console.log(dataSource)
+    // }, 2000);
+
 
     const Game = firebase.database()
       .ref('/Games')
@@ -51,6 +88,7 @@ export class GameScreenGameMaster extends Component {
       })
       .then(() => {
         console.log('VALIDER LA PARTIE')
+        // this.props.navigation.navigate("CardGameMaster",{})
       });
   }
   render() {

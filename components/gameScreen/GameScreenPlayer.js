@@ -29,11 +29,11 @@ export class GameScreenPlayer extends Component {
       // playersAutorise = snapshot.val().playerNumbers
     })
    
-    console.log('playerInDb',playersIn)
-    console.log('playerNumbers',playersAutorise)
+    // console.log('playerInDb',playersIn)
+    // console.log('playerNumbers',playersAutorise)
 
     if(playersIn >= playersAutorise){
-      console.log('here')
+      // console.log('here')
       this.props.navigation.navigate('Landing')
     }
     const newPlayer = firebase.database()
@@ -44,11 +44,12 @@ export class GameScreenPlayer extends Component {
       .set({
         Pseudo : nickName,
         Role : "Players",
+        AniMot:''
       })
       .then(() => {
         console.log('Player Created.', newPlayer.key )
 
-        this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle })
+        this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle, UserID : newPlayer.key, gameKey : docID })
 
       });
   }
