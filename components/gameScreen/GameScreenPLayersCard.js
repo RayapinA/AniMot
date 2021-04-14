@@ -44,11 +44,12 @@ export class GameScreenPLayersCard extends Component {
         <Text style={styles.titre} > {gameTitle} </Text>
         <Text style={styles.nickName} > Surnom : {nickName} </Text>
         {
-         status != 'OK' &&  <Text> Statut : {status} </Text> 
+         status != 'OK' &&  <Text style={styles.nickName}> Statut : {status} </Text> 
         }
-        
-        <Text> Card </Text>
-        <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
+
+        {
+         animot != '' && <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
+        }
       </View>
     )
   }

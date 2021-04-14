@@ -7,7 +7,9 @@ export class CardGameMaster extends Component {
     return (
       <View> 
 
-      <Text>Game is in play  ---- GAME MASTER </Text>
+        <Text> Game is in play  ---- GAME MASTER </Text>
+
+        <Text> Card </Text> 
 
       </View>
     )
