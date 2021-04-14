@@ -13,7 +13,7 @@ export class GameScreenGameMaster extends Component {
       playerNumbers: '',
       poachersNumbers: '',
       dataSource : [],
-      disabled : false
+      disabled : false,
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
@@ -36,17 +36,45 @@ export class GameScreenGameMaster extends Component {
       });
     });
   }
+
+  chooseAnimotOrPoacher(){
+    const arrayTypePlayer = ['Animot','Poacher']
+
+    let TypePlayer = arrayTypePlayer[Math.round(Math.random())]
+    
+      return TypePlayer
+  }
+  getAnimot(aniMot){
+    let indexToGet = Math.floor(Math.random() * aniMot.length)
+
+    console.log(indexToGet)
+    console.log(aniMot[indexToGet])
+    return aniMot[indexToGet]
+
+  }
   
   attributeAnimotPlayer(){
     const { dataSource } = this.state
-    const aniMot = ['ours','bizon','oiseaux']
+    const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
+
+    let arrayAniMot = ['ours','bizon','oiseaux']
+    let nbPoacherAtribute = 0 
+
     return new Promise((successCallback, failureCallback) => {
-      console.log("C'est fait");
-      dataSource.forEach(item => {
-      item.AniMot = aniMot[0]
-    })
-      // TODOS :: verifier si tout le bon nombre de joeurus possede l'attribut animot et il reste suffisament pour les braconniers
       
+      dataSource.forEach(item => {
+        let typePlayer = this.chooseAnimotOrPoacher()
+        console.log(typePlayer)
+        if(typePlayer === 'Poacher' && nbPoacherAtribute < poachersNumbers ){
+          nbPoacherAtribute++ 
+          item.AniMot = 'Poacher'
+        }
+        else{
+          var animot = this.getAnimot(arrayAniMot)
+          item.AniMot = animot
+          arrayAniMot.splice(arrayAniMot.indexOf(animot),1)
+        }
+    })
         successCallback("Réussite");
     })
   }
@@ -68,7 +96,7 @@ export class GameScreenGameMaster extends Component {
         })
         .then(() => {
           console.log('VALIDER LA PARTIE')
-          // this.props.navigation.navigate("CardGameMaster",{})
+          this.props.navigation.navigate("CardGameMaster", { userID : element.userID, gameID : gameKey })
         });
       });
     })
