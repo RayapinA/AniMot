@@ -14,6 +14,16 @@ export class GameScreenPLayersCard extends Component {
   componentDidMount(){
     const { UserID, gameKey } = this.props.route.params;
     const self = this
+
+    const FirebaseGame = firebase.database().ref('Games/' + gameKey)
+
+    FirebaseGame.on("value", function(snapshot) {
+      self.setState({
+        status : snapshot.val()['Status'] == "Waiting" ? 'En attente de lancement' : snapshot.val()['Status'],
+      });
+    });
+
+
     const FirebaseUsers = firebase.database().ref('Games/' + gameKey +'/Users/'+ UserID)
 
     FirebaseUsers.on("value", function(snapshot) {
@@ -26,14 +36,19 @@ export class GameScreenPLayersCard extends Component {
 
   render() {
     const { gameTitle, nickName} = this.props.route.params;
-    const { animot } = this.state
+    const { animot, status } = this.state
+
+
     return (
       <View style={styles.container} >
         <Text style={styles.titre} > {gameTitle} </Text>
         <Text style={styles.nickName} > Surnom : {nickName} </Text>
-        <Text> Statut : En attente de lancement </Text>
+        {
+         status != 'OK' &&  <Text> Statut : {status} </Text> 
+        }
+        
         <Text> Card </Text>
-        <Text> {animot} </Text>
+        <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
       </View>
     )
   }
