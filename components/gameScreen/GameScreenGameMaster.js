@@ -36,17 +36,68 @@ export class GameScreenGameMaster extends Component {
       });
     });
   }
-  
-  attributeAnimotPlayer(){
+
+  // Iteration : nombre ids a resortir //  length : nombre de joueurs totales // array avec les id animots
+  getAleatoireNumbers(iteration, length, arrayNumbers = []){
+    console.log('getAleatoireNumbers')
+    console.log(iteration)
+    console.log(length)
+    console.log(arrayNumbers)
+    // Si la liste id est deja remplie
+    // if(arrayNumbers.length > 0){
+    //   let OtherNumbers = []
+    //   for(var i = 0 ; i <= length; i++){
+    //     if(arrayNumbers.indexOf(i) == -1 && OtherNumbers.indexOf(i) == -1){
+    //       OtherNumbers.push(i)
+    //     }
+    //   }
+    //   return OtherNumbers
+    // }
+
+    // if(iteration === 1)
+    // return  Math.floor(Math.random() * length)
+
+    // while(arrayNumbers.length != iteration){
+    //   let nbreaAleatoire = Math.floor(Math.random() * length)
+    //   if(arrayNumbers.indexOf(nbreaAleatoire) == -1 ){
+    //     arrayNumbers.push(nbreaAleatoire)
+    //   }
+    // }
+    // return arrayNumbers
+
+
+  }
+  // Definition des Animots et des braconniers
+  pickPlayersAnimotAndPlayersPoacher(){
+    console.log('pickPlayersAnimotAndPlayersPoacher')
+    const { playerNumbers, poachersNumbers  } = this.props.route.params;
     const { dataSource } = this.state
-    const aniMot = ['ours','bizon','oiseaux']
+
+    const nbAnimot = parseInt(playerNumbers) - parseInt(poachersNumbers)
+     const idsAnimot = this.getAleatoireNumbers(nbAnimot,dataSource.length) 
+     //console.log(idsAnimot)// Récupération des ids Animot 
+    // const idsPoacher = this.getAleatoireNumbers(parseInt(poachersNumbers),dataSource.length,idsAnimot) //Récupération des ids Animot 
+
+    //return {idsAnimot : idsAnimot ,idsPoacher : idsPoacher}
+    
+  }
+  
+  attributeCardPlayer(){
+    const { dataSource } = this.state
+    const aniMot = ['ours','bizon','oiseaux','poisson', 'chat']
+    console.log('attributeCardPlayer')
     return new Promise((successCallback, failureCallback) => {
-      console.log("C'est fait");
+      let nbreaAleatoire = Math.floor(Math.random() * aniMot.length)
+       const PlayersIds = this.pickPlayersAnimotAndPlayersPoacher()
+      // console.log('PlayersIds',PlayersIds) 
+
       dataSource.forEach(item => {
-      item.AniMot = aniMot[0]
+        item.AniMot = aniMot[nbreaAleatoire]
+        // console.log(aniMot[nbreaAleatoire])
+        aniMot.splice(nbreaAleatoire, 1);
+        nbreaAleatoire = Math.floor(Math.random() * aniMot.length)
     })
       // TODOS :: verifier si tout le bon nombre de joeurus possede l'attribut animot et il reste suffisament pour les braconniers
-      
         successCallback("Réussite");
     })
   }
@@ -56,21 +107,27 @@ export class GameScreenGameMaster extends Component {
     const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
     const { dataSource } = this.state
     const aniMot = ['ours','bizon','oiseaux']
-    this.attributeAnimotPlayer().then(() => {
-      dataSource.forEach(element => {
-        let Players = firebase.database()
-        .ref('/Games/'+ gameKey +'/Users/')
-        .child(element.userID);
 
-        Players
-        .update({
-          AniMot : element.AniMot,
-        })
-        .then(() => {
-          console.log('VALIDER LA PARTIE')
-          // this.props.navigation.navigate("CardGameMaster",{})
-        });
-      });
+    console.log('onValidateGame')
+    if(dataSource.length != playerNumbers ){
+      alert('Le nombre de joueurs est faux')
+      return false
+    }
+    this.attributeCardPlayer().then(() => {
+      // dataSource.forEach(element => {
+      //   let Players = firebase.database()
+      //   .ref('/Games/'+ gameKey +'/Users/')
+      //   .child(element.userID);
+
+      //   Players
+      //   .update({
+      //     AniMot : element.AniMot,
+      //   })
+      //   .then(() => {
+      //     console.log('VALIDER LA PARTIE')
+      //     // this.props.navigation.navigate("CardGameMaster",{})
+      //   });
+      // });
     })
     
     // setTimeout(() => {
