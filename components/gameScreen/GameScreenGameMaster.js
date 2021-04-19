@@ -57,7 +57,7 @@ export class GameScreenGameMaster extends Component {
     const { dataSource } = this.state
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
 
-    let arrayAniMot = ['ours','bizon','oiseaux']
+    let arrayAniMot = ['bear','horse','dragon','eagle','snake']
     let nbPoacherAtribute = 0 
 
     return new Promise((successCallback, failureCallback) => {
@@ -83,7 +83,7 @@ export class GameScreenGameMaster extends Component {
     //TODOS : recuperer tout les utilisateur et attribué une card a chacun en fonction d'un jeu aleatoire
     const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
     const { dataSource } = this.state
-    const aniMot = ['ours','bizon','oiseaux']
+    const aniMot = ['bear','horse','dragon','eagle','snake']
     this.attributeAnimotPlayer().then(() => {
       dataSource.forEach(element => {
         let Players = firebase.database()
