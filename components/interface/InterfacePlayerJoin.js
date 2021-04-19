@@ -31,14 +31,13 @@ export class InterfacePlayerJoin extends Component {
     var ref = firebase.database().ref('Games/')
     ref.orderByKey().on("child_added", function(snapshot) {
       const data = snapshot.val();
-      
       if(snapshot.val().Users == undefined){
         console.log('Users is undefined')
         return false
       }
       
-      const playerInDb = Object.keys(snapshot.val().Users).length //const playerInDb = Object.keys(data.Users).length
-      if(playerInDb != undefined && playerInDb < data.playerNumbers){
+      const playerInDb = Object.keys(snapshot.val().Users).length
+      if(playerInDb != undefined && playerInDb < data.playerNumbers && data['Status'] == 'Waiting'){
         Games.push({
           docID : snapshot.key,
           gameTitle : data.gameTitle

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Button, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore'; 
@@ -20,7 +20,7 @@ export class CardGameMaster extends Component {
   }
   
   UNSAFE_componentWillMount(){
-    const { userID, gameID } = this.props.route.params;
+    const { userID, gameID } = this.props.route.params
     const self = this
 
     const FirebaseGame = firebase.database().ref('Games/' + gameID)
@@ -40,11 +40,35 @@ export class CardGameMaster extends Component {
     });
   }
   reloadTheGame(){
+    const { userID, gameID } = this.props.route.params;
     alert('Reload the Game')
+  }
+  
+  closeGame(){
+    const { userID, gameID } = this.props.route.params;
+    const Game = firebase.database()
+      .ref('/Games')
+      .child( gameID);
+
+      Game
+      .update({
+        Status : 'ENDED',
+      })
+      .then(() => {
+        this.props.navigation.navigate("Landing", )
+      });
   }
 
   finishGame(){
-    alert('Finish the Game')
+    const self = this 
+    Alert.alert(
+      'Terminer la partie',
+      'Êtes-vous sur de vouloir terminer la partie ? ',
+      [
+        {text: 'NON', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
+        {text: 'OUI', onPress: () => self.closeGame()},
+      ],{ cancelable: true }
+    );
   }
 
   render() {
