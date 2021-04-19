@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { SafeAreaView ,View, Button, TextInput, Text, StyleSheet } from 'react-native'
+import Card from '../card/Card'
+
 
 import * as firebase from 'firebase';
 import 'firebase/firestore'; 
+
+
 export class GameScreenPLayersCard extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +52,10 @@ export class GameScreenPLayersCard extends Component {
         }
 
         {
-         animot != '' && <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
+         animot != '' &&  <Card animot={animot} />
+        }
+        {
+         animot != '' &&  <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
         }
       </View>
     )

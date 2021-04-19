@@ -25,11 +25,13 @@ export class InterfacePlayerJoin extends Component {
 
   }
 
-  componentDidMount(){
+  UNSAFE_componentWillMount(){
     const Games = [];
+    const self = this
     var ref = firebase.database().ref('Games/')
     ref.orderByKey().on("child_added", function(snapshot) {
       const data = snapshot.val();
+      
       if(snapshot.val().Users == undefined){
         console.log('Users is undefined')
         return false
@@ -42,10 +44,10 @@ export class InterfacePlayerJoin extends Component {
           gameTitle : data.gameTitle
         });
       }
+      self.setState({
+        dataSource : Games,
+      });
     })
-    this.setState({
-      dataSource : Games,
-    });
   }
 
   render() {

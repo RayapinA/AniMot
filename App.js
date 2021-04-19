@@ -17,7 +17,6 @@ const config  = {
 }
 
 if(firebase.apps.length === 0){
-  console.log('no is running')
   firebase.initializeApp(config);
 }
 import { StyleSheet, Text, View } from 'react-native';
