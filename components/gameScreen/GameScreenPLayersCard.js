@@ -34,7 +34,6 @@ export class GameScreenPLayersCard extends Component {
       self.setState({
         animot : snapshot.val()['AniMot'],
       });
-      console.log()
     });
   }
 

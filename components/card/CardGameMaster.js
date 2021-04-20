@@ -22,17 +22,12 @@ export class CardGameMaster extends Component {
   UNSAFE_componentWillMount(){
     const { userID, gameID } = this.props.route.params
     const self = this
-
     const FirebaseGame = firebase.database().ref('Games/' + gameID)
-
     FirebaseGame.on("value", function(snapshot) {
       self.setState({
       });
     });
-
-
     const FirebaseUsers = firebase.database().ref('Games/' + gameID +'/Users/'+ userID)
-
     FirebaseUsers.on("value", function(snapshot) {
       self.setState({
         card : { animot : snapshot.val()['AniMot'] }
@@ -41,22 +36,23 @@ export class CardGameMaster extends Component {
   }
   reloadTheGame(){
     const { userID, gameID } = this.props.route.params;
-    alert('Reload the Game')
+    alert('Reload the Game ---- En cours de developpement')
+    this.props.navigation.navigate("GameScreenGameMaster")
   }
   
   closeGame(){
     const { userID, gameID } = this.props.route.params;
     const Game = firebase.database()
-      .ref('/Games')
-      .child( gameID);
+    .ref('/Games')
+    .child( gameID);
 
-      Game
-      .update({
-        Status : 'ENDED',
-      })
-      .then(() => {
-        this.props.navigation.navigate("Landing", )
-      });
+    Game
+    .update({
+      Status : 'ENDED',
+    })
+    .then(() => {
+      this.props.navigation.navigate("Landing")
+    });
   }
 
   finishGame(){
@@ -67,14 +63,20 @@ export class CardGameMaster extends Component {
       [
         {text: 'NON', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
         {text: 'OUI', onPress: () => self.closeGame()},
-      ],{ cancelable: true }
+      ],
+      { cancelable: true }
     );
+  }
+  getStyleTextInfoAnimot(animot){
+    if(animot == 'braconnier'){
+      return { marginTop: 55, marginBottom: 55 };
+    }
+    return { marginTop: 35, marginBottom: 35}
   }
 
   render() {
 
     const { card } = this.state
-
     const AppButton = ({ onPress, title }) => (
       <TouchableOpacity onPress={onPress} style={styles.appButtonContainer} >
         <Text style={styles.appButtonText}>{title}</Text>
@@ -84,10 +86,11 @@ export class CardGameMaster extends Component {
     return (
       <View style={styles.container}>
 
-        <Text style={styles.titleText}> Game is on </Text>
-        <Text style={styles.titleTextContent}> Tu es {card.animot} </Text> 
-        <Card animot={card.animot} />
-
+        <Text style={styles.titleText}> Jeu en cours </Text>
+        <Text style={[styles.titleTextContent, this.getStyleTextInfoAnimot(card.animot)]}> Tu es {card.animot} </Text> 
+        {
+         card.animot != 'braconnier' &&  <Card animot={card.animot} />
+        }
         <AppButton 
           title="Terminer la partie"
           size="sm"

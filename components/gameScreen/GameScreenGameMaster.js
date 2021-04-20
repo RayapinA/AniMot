@@ -67,7 +67,7 @@ export class GameScreenGameMaster extends Component {
         console.log(typePlayer)
         if(typePlayer === 'Poacher' && nbPoacherAtribute < poachersNumbers ){
           nbPoacherAtribute++ 
-          item.AniMot = 'Poacher'
+          item.AniMot = 'braconnier'
         }
         else{
           var animot = this.getAnimot(arrayAniMot)

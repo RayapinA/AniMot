@@ -45,11 +45,6 @@ export class Card extends Component {
         visuelAnimot : snakeVisuel,
       });
     }
-    if(this.props.animot == 'Poacher'){
-      this.setState({
-        visuelAnimot : Visuelllll,
-      });
-    }
   }
 
   render() {
