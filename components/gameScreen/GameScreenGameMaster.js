@@ -57,7 +57,8 @@ export class GameScreenGameMaster extends Component {
     const { dataSource } = this.state
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
 
-    let arrayAniMot = ['bear','horse','dragon','eagle','snake']
+    //let arrayAniMot = ['bear','horse','dragon','eagle','snake']
+    let arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
     let nbPoacherAtribute = 0 
 
     return new Promise((successCallback, failureCallback) => {
@@ -83,7 +84,9 @@ export class GameScreenGameMaster extends Component {
     //TODOS : recuperer tout les utilisateur et attribué une card a chacun en fonction d'un jeu aleatoire
     const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
     const { dataSource } = this.state
-    const aniMot = ['bear','horse','dragon','eagle','snake']
+    // const aniMot = ['bear','horse','dragon','eagle','snake']
+    const arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
+
     this.attributeAnimotPlayer().then(() => {
       dataSource.forEach(element => {
         let Players = firebase.database()
@@ -95,7 +98,7 @@ export class GameScreenGameMaster extends Component {
           AniMot : element.AniMot,
         })
         .then(() => {
-          console.log('VALIDER LA PARTIE')
+          /// TODOS Revoir la navigation ici 
           this.props.navigation.navigate("CardGameMaster", { userID : element.userID, gameID : gameKey,listPlayers: dataSource })
         });
       });

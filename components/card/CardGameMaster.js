@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, Button, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 
+
 import * as firebase from 'firebase';
 import 'firebase/firestore'; 
 import Card from './Card'
@@ -33,6 +34,7 @@ export class CardGameMaster extends Component {
         poachersNumbers:snapshot.val()['poachersNumbers']
       });
     });
+
     const FirebaseUsers = firebase.database().ref('Games/' + gameID +'/Users/'+ userID)
     FirebaseUsers.on("value", function(snapshot) {
       self.setState({
@@ -58,13 +60,8 @@ export class CardGameMaster extends Component {
   relauchGame(){
     const { userID, gameID, listPlayers } = this.props.route.params;
     const { gameTitle, playerNumbers, poachersNumbers } = this.state
-    console.log('relauchGame')
-    console.log(gameTitle)
-    console.log(playerNumbers)
-    console.log(poachersNumbers)
 
     listPlayers.forEach(element => {
-      console.log(element['userID'])
       let Players = firebase.database()
       .ref('/Games/'+ gameID +'/Users/')
       .child(element['userID']);

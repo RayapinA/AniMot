@@ -54,7 +54,7 @@ export class GameScreenPLayersCard extends Component {
          animot != '' &&  <Card animot={animot} />
         }
         {
-         animot != '' &&  <Text style={styles.nickName} > Type de joueur :  {animot} </Text>
+         animot != '' &&  <Text style={styles.nickName} > Tu es {animot} </Text>
         }
       </View>
     )
