@@ -96,7 +96,7 @@ export class GameScreenGameMaster extends Component {
         })
         .then(() => {
           console.log('VALIDER LA PARTIE')
-          this.props.navigation.navigate("CardGameMaster", { userID : element.userID, gameID : gameKey })
+          this.props.navigation.navigate("CardGameMaster", { userID : element.userID, gameID : gameKey,listPlayers: dataSource })
         });
       });
     })

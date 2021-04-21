@@ -15,7 +15,10 @@ export class CardGameMaster extends Component {
       disabled : false,
       card: {
         animot:''
-      }
+      },
+      gameTitle:'',
+      playerNumbers:0,
+      poachersNumbers:0
     }
   }
   
@@ -25,6 +28,9 @@ export class CardGameMaster extends Component {
     const FirebaseGame = firebase.database().ref('Games/' + gameID)
     FirebaseGame.on("value", function(snapshot) {
       self.setState({
+        gameTitle:snapshot.val()['gameTitle'],
+        playerNumbers:snapshot.val()['playerNumbers'],
+        poachersNumbers:snapshot.val()['poachersNumbers']
       });
     });
     const FirebaseUsers = firebase.database().ref('Games/' + gameID +'/Users/'+ userID)
@@ -36,10 +42,57 @@ export class CardGameMaster extends Component {
   }
   reloadTheGame(){
     const { userID, gameID } = this.props.route.params;
-    alert('Reload the Game ---- En cours de developpement')
-    this.props.navigation.navigate("GameScreenGameMaster")
+    const self = this 
+    Alert.alert(
+      'Relancer la partie',
+      'Êtes-vous sur de vouloir relancer une partie ?',
+      [
+        {text: 'NON', onPress: () => console.log('Fausse manipulation - reloadTheGame')},
+        {text: 'OUI', onPress: () => self.relauchGame()},
+      ],
+      { cancelable: true }
+    );
+    // this.props.navigation.navigate("GameScreenGameMaster")
   }
-  
+
+  relauchGame(){
+    const { userID, gameID, listPlayers } = this.props.route.params;
+    const { gameTitle, playerNumbers, poachersNumbers } = this.state
+    console.log('relauchGame')
+    console.log(gameTitle)
+    console.log(playerNumbers)
+    console.log(poachersNumbers)
+
+    listPlayers.forEach(element => {
+      console.log(element['userID'])
+      let Players = firebase.database()
+      .ref('/Games/'+ gameID +'/Users/')
+      .child(element['userID']);
+
+      Players
+      .update({
+        AniMot : '',
+      })
+      .then(() => {
+        this.props.navigation.navigate("GameScreenGameMaster", { gameTitle:gameTitle, playerNumbers:playerNumbers, poachersNumbers:poachersNumbers, gameKey:gameID })
+      });
+    });
+    
+  }
+
+  finishGame(){
+    const self = this 
+    Alert.alert(
+      'Terminer la partie',
+      'Êtes-vous sur de vouloir terminer la partie ? ',
+      [
+        {text: 'NON', onPress: () => console.log('Fausse manipulation - closeGame')},
+        {text: 'OUI', onPress: () => self.closeGame()},
+      ],
+      { cancelable: true }
+    );
+  }
+
   closeGame(){
     const { userID, gameID } = this.props.route.params;
     const Game = firebase.database()
@@ -55,18 +108,6 @@ export class CardGameMaster extends Component {
     });
   }
 
-  finishGame(){
-    const self = this 
-    Alert.alert(
-      'Terminer la partie',
-      'Êtes-vous sur de vouloir terminer la partie ? ',
-      [
-        {text: 'NON', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
-        {text: 'OUI', onPress: () => self.closeGame()},
-      ],
-      { cancelable: true }
-    );
-  }
   getStyleTextInfoAnimot(animot){
     if(animot == 'braconnier'){
       return { marginTop: 55, marginBottom: 55 };
