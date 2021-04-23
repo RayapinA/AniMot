@@ -42,22 +42,25 @@ export class InterfacePlayerJoin extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={ styles.titre}> Liste de parties </Text>
-        <ScrollView showsVerticalScrollIndicator={false} > 
         {
-          dataSource.map((item, i) => (
-              <ListItem 
-                key={i} bottomDivider
-                onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.docID, gameTitle: item.gameTitle }) }
-                style={{opacity:0.8,marginBottom:5, marginTop:5}}
-              >
-                <ListItem.Content>
-                  <ListItem.Title style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black',}}> {item.gameTitle} </ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron/>
-              </ListItem>
-            ))
+          dataSource.length != 0 && <ScrollView showsVerticalScrollIndicator={false} > 
+          {
+            dataSource.map((item, i) => (
+                <ListItem 
+                  key={i} bottomDivider
+                  onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.docID, gameTitle: item.gameTitle }) }
+                  style={{opacity:0.8,marginBottom:5, marginTop:5}}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black',}}> {item.gameTitle} </ListItem.Title>
+                  </ListItem.Content>
+                  <ListItem.Chevron/>
+                </ListItem>
+              ))
+            }
+            </ScrollView>
           }
-          </ScrollView>
+          { dataSource.length == 0 && <Text style={styles.informationPartie}> Aucune partie disponible </Text> }
       </SafeAreaView>
     )
   }
@@ -76,6 +79,15 @@ const styles = StyleSheet.create({
   },
   titre : {
     fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#0c6904',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+    marginBottom: 20
+  },
+  informationPartie : {
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#0c6904',
