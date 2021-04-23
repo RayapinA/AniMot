@@ -4,6 +4,7 @@ import { ListItem, Icon } from 'react-native-elements'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { Alert } from 'react-native';
 
 export class GameScreenGameMaster extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export class GameScreenGameMaster extends Component {
       playerNumbers: '',
       poachersNumbers: '',
       dataSource : [],
-      disabled : true,
+      disabled : false,
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
@@ -34,13 +35,12 @@ export class GameScreenGameMaster extends Component {
         dataSource : Users,
         playerInGame : Users.length,
       });
-      //TODOS :: revoir la methode pour mettre Alert()
 
-      if(playerNumbers == Users.length){
-        self.setState({
-          disabled : false,
-        });
-      }
+      // if(playerNumbers == Users.length){
+      //   self.setState({
+      //     disabled : false,
+      //   });
+      // }
     });
   }
 
@@ -54,8 +54,6 @@ export class GameScreenGameMaster extends Component {
   getAnimot(aniMot){
     let indexToGet = Math.floor(Math.random() * aniMot.length)
 
-    console.log(indexToGet)
-    console.log(aniMot[indexToGet])
     return aniMot[indexToGet]
 
   }
@@ -64,24 +62,32 @@ export class GameScreenGameMaster extends Component {
     const { dataSource } = this.state
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
 
-    //let arrayAniMot = ['bear','horse','dragon','eagle','snake']
     let arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
-    let nbPoacherAtribute = 0 
+    let nbPoacherAtribute = 0
+
+    const animotNumbers = playerNumbers - poachersNumbers
     var animot = this.getAnimot(arrayAniMot)
 
     return new Promise((successCallback, failureCallback) => {
-      console.log()
-      dataSource.forEach(item => {
-        let typePlayer = this.chooseAnimotOrPoacher()
-        console.log('------')
-        console.log(typePlayer)
-        if(typePlayer === 'Poacher' && nbPoacherAtribute < poachersNumbers ){
-          nbPoacherAtribute++ 
-          item.AniMot = 'braconnier'
+      var i = 0;
+      var ArrayIndexAnimot = []
+      for (; i < animotNumbers; i++) {
+        var indexAnimot = Math.floor(Math.random() * dataSource.length)
+        if(ArrayIndexAnimot.indexOf(indexAnimot) == -1){
+          ArrayIndexAnimot.push(indexAnimot)
+        }else{
+          i--
         }
-        else{
+      }
+
+    dataSource.forEach(function (item, i){
+
+        if(ArrayIndexAnimot.indexOf(i) == -1){
+          nbPoacherAtribute++ 
+          item.AniMot = 'Braconnier'
+        }
+        else {
           item.AniMot = animot
-          arrayAniMot.splice(arrayAniMot.indexOf(animot),1)
         }
     })
         successCallback("Réussite");
@@ -89,11 +95,16 @@ export class GameScreenGameMaster extends Component {
   }
 
   onValidateGame(){
-    //TODOS : recuperer tout les utilisateur et attribué une card a chacun en fonction d'un jeu aleatoire
-    const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
-    const { dataSource } = this.state
+    const { GameId, gameTitle, gameKey, playerNumbers,newPlayer } = this.props.route.params;
+    const { dataSource,playerInGame } = this.state
+
+    if(playerNumbers > playerInGame){
+      alert('Il manque '+  parseInt(playerNumbers-playerInGame) +' joueur')
+      return false
+      }
 
     this.attributeAnimotPlayer().then(() => {
+
       dataSource.forEach(element => {
         let Players = firebase.database()
         .ref('/Games/'+ gameKey +'/Users/')
@@ -104,18 +115,11 @@ export class GameScreenGameMaster extends Component {
           AniMot : element.AniMot,
         })
         .then(() => {
-          /// TODOS Revoir la navigation ici 
-          this.props.navigation.navigate("CardGameMaster", { userID : element.userID, gameID : gameKey,listPlayers: dataSource })
+          console.log('attributeAnimotPlayer OK')
         });
       });
-    })
-    
-    // setTimeout(() => {
-    //   console.log(dataSource)
-    // }, 2000);
 
-
-    const Game = firebase.database()
+      const Game = firebase.database()
       .ref('/Games')
       .child( gameKey);
 
@@ -124,9 +128,11 @@ export class GameScreenGameMaster extends Component {
         Status : 'OK',
       })
       .then(() => {
-        console.log('VALIDER LA PARTIE')
-        // this.props.navigation.navigate("CardGameMaster",{})
+        console.log('Status OK')
       });
+      this.props.navigation.navigate("CardGameMaster", { userID : newPlayer, gameID : gameKey,listPlayers: dataSource })
+    })
+    
   }
   render() {
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
@@ -164,7 +170,7 @@ export class GameScreenGameMaster extends Component {
         <Text style={styles.titleTextContent}> Nombre de braconniers : {poachersNumbers} </Text>
 
         <AppButton 
-          title="Valider la partie"
+          title="Lancer la partie"
           size="sm"
           disabled={disabled}
           backgroundColor="#1f8416"
