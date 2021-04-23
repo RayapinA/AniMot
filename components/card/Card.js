@@ -55,7 +55,7 @@ import loupVisuel from '../../assets/animaux/animotLoup.png'
 import mouetteVisuel from '../../assets/animaux/animotMouette.png'
 import perroquetVisuel from '../../assets/animaux/animotPerroquet.png'
 import lamaVisuel from '../../assets/animaux/animotLama.png'
-
+import vacheVisuel from '../../assets/animaux/animotVache.png'
 
 
 export class Card extends Component {
@@ -138,7 +138,7 @@ export class Card extends Component {
         visuelAnimot : paonVisuel,
       });
     }
-    if(this.props.animot.toLowerCase() == 'abeille'){
+    if(this.props.animot.toLowerCase() == 'abeilles'){
       this.setState({
         visuelAnimot : abeilleVisuel,
       });
@@ -193,7 +193,7 @@ export class Card extends Component {
         visuelAnimot : elephantVisuel,
       });
     }
-    if(this.props.animot.toLowerCase() == 'giraffe'){
+    if(this.props.animot.toLowerCase() == 'girafe'){
       this.setState({
         visuelAnimot : giraffeVisuel,
       });

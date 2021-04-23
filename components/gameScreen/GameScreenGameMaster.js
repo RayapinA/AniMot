@@ -13,14 +13,14 @@ export class GameScreenGameMaster extends Component {
       playerNumbers: '',
       poachersNumbers: '',
       dataSource : [],
-      disabled : false,
+      disabled : true,
     }
     this.onValidateGame = this.onValidateGame.bind(this)
   }
   
   componentDidMount(){
     const Users = [];
-    const { gameKey } = this.props.route.params;
+    const { gameKey, playerNumbers } = this.props.route.params;
     const self = this
     const { playerInGame } = this.state
     const FirebaseUsers = firebase.database().ref('Games/' + gameKey +'/Users')
@@ -34,6 +34,13 @@ export class GameScreenGameMaster extends Component {
         dataSource : Users,
         playerInGame : Users.length,
       });
+      //TODOS :: revoir la methode pour mettre Alert()
+
+      if(playerNumbers == Users.length){
+        self.setState({
+          disabled : false,
+        });
+      }
     });
   }
 
@@ -60,18 +67,19 @@ export class GameScreenGameMaster extends Component {
     //let arrayAniMot = ['bear','horse','dragon','eagle','snake']
     let arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
     let nbPoacherAtribute = 0 
+    var animot = this.getAnimot(arrayAniMot)
 
     return new Promise((successCallback, failureCallback) => {
-      
+      console.log()
       dataSource.forEach(item => {
         let typePlayer = this.chooseAnimotOrPoacher()
+        console.log('------')
         console.log(typePlayer)
         if(typePlayer === 'Poacher' && nbPoacherAtribute < poachersNumbers ){
           nbPoacherAtribute++ 
           item.AniMot = 'braconnier'
         }
         else{
-          var animot = this.getAnimot(arrayAniMot)
           item.AniMot = animot
           arrayAniMot.splice(arrayAniMot.indexOf(animot),1)
         }
@@ -84,8 +92,6 @@ export class GameScreenGameMaster extends Component {
     //TODOS : recuperer tout les utilisateur et attribué une card a chacun en fonction d'un jeu aleatoire
     const { GameId, gameTitle, gameKey, playerNumbers } = this.props.route.params;
     const { dataSource } = this.state
-    // const aniMot = ['bear','horse','dragon','eagle','snake']
-    const arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
 
     this.attributeAnimotPlayer().then(() => {
       dataSource.forEach(element => {
