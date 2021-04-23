@@ -43,9 +43,6 @@ export class InterfaceGameMasterCreation extends Component {
       Status: 'Waiting'
     })
     .then(() => {
-      
-      console.log('Game Created.', newGame.key )
-
       const newPlayer = firebase.database()
       .ref('/Games/'+ newGame.key +'/Users')
       .push();
@@ -57,7 +54,6 @@ export class InterfaceGameMasterCreation extends Component {
         AniMot : ''
       })
       .then(() => {
-        console.log('Player Created.', newPlayer.key )
 
         this.props.navigation.navigate('GameScreenGameMaster',
         { GameId  : GameId,
@@ -67,6 +63,7 @@ export class InterfaceGameMasterCreation extends Component {
           gameKey : newGame.key,
           newPlayer : newPlayer.key
         })
+
       });
     });
   }

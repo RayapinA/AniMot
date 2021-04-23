@@ -10,19 +10,6 @@ export class InterfacePlayerJoin extends Component {
     this.state = {
       dataSource : []
     }
-    // Get All Game 
-    // TODO : Check if Game is not Finish - Add Parameter in DB 
-    // this.collectionGames = firebase.firestore().collection('games')
-//     var starCountRef = firebase.database().ref('Games/');
-// starCountRef.on('value', (snapshot) => {
-//   const data = snapshot.val();
-//   // updateStarCount(postElement, data);
-// });
-
-// firebase.database().ref('Games/').once('value', function (snapshot) {
-//   console.log(snapshot.val())
-// });
-
   }
 
   UNSAFE_componentWillMount(){

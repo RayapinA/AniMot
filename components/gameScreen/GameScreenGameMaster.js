@@ -154,7 +154,6 @@ export class GameScreenGameMaster extends Component {
           dataSource.map((item, i) => (
               <ListItem 
                 key={i} bottomDivider
-                // onPress={() => this.props.navigation.navigate("GameScreenPlayer",{ docID : item.userID, gameTitle: item.Pseudo }) }
                 style={{opacity:0.8,marginBottom:5, marginTop:5}}
               >
                 <ListItem.Content>

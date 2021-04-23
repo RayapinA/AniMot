@@ -1,16 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as firebase from 'firebase';
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDfOHAMFNUc-jV93jBR_4sZd6rXQwuEDhM",
-//   authDomain: "ani-mot.firebaseapp.com",
-//   projectId: "ani-mot",
-//   storageBucket: "ani-mot.appspot.com",
-//   messagingSenderId: "426894287799",
-//   appId: "1:426894287799:web:d24925711dc5091846be32",
-//   measurementId: "G-QP0PZ0JLGR"
-// };
-
 const config  = {
   databaseURL : "https://ani-mot-default-rtdb.firebaseio.com/",
   projectId: "ani-mot",

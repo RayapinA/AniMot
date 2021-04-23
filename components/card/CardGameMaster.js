@@ -54,7 +54,6 @@ export class CardGameMaster extends Component {
       ],
       { cancelable: true }
     );
-    // this.props.navigation.navigate("GameScreenGameMaster")
   }
 
   relauchGame(){
@@ -74,7 +73,6 @@ export class CardGameMaster extends Component {
         this.props.navigation.navigate("GameScreenGameMaster", { gameTitle:gameTitle, playerNumbers:playerNumbers, poachersNumbers:poachersNumbers, gameKey:gameID })
       });
     });
-    
   }
 
   finishGame(){

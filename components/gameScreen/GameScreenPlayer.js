@@ -14,7 +14,6 @@ export class GameScreenPlayer extends Component {
     this.JoinGame = this.JoinGame.bind(this)
   }
   JoinGame(){
-    // const GameId = new Date().getTime().toString() // Timestamp
     const { nickName } = this.state;
     const { docID, gameTitle } = this.props.route.params;
     var playersIn = 0
@@ -24,16 +23,9 @@ export class GameScreenPlayer extends Component {
     ref.orderByKey().on("child_added", function(snapshot) {
       const data = snapshot.val();
       playersIn = Object.keys(data).length
-      // console.log(playersIn)
-      // playersIn = Object.keys(snapshot.val().Users).length
-      // playersAutorise = snapshot.val().playerNumbers
     })
-   
-    // console.log('playerInDb',playersIn)
-    // console.log('playerNumbers',playersAutorise)
 
     if(playersIn >= playersAutorise){
-      // console.log('here')
       this.props.navigation.navigate('Landing')
     }
     const newPlayer = firebase.database()
@@ -47,10 +39,7 @@ export class GameScreenPlayer extends Component {
         AniMot:''
       })
       .then(() => {
-        console.log('Player Created.', newPlayer.key )
-
         this.props.navigation.navigate('GameScreenPLayersCard',{ nickName  : nickName, gameTitle : gameTitle, UserID : newPlayer.key, gameKey : docID })
-
       });
   }
   render() {
