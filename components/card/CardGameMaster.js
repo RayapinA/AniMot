@@ -123,10 +123,10 @@ export class CardGameMaster extends Component {
       <View style={styles.container}>
 
         <Text style={styles.titleText}> Jeu en cours </Text>
-        <Text style={[styles.titleTextContent, this.getStyleTextInfoAnimot(card.animot)]}> Tu es {card.animot} </Text> 
-        {
-         card.animot != 'braconnier' &&  <Card animot={card.animot} />
-        }
+        {/* <Text style={[styles.titleTextContent, this.getStyleTextInfoAnimot(card.animot)]}> Tu es {card.animot} </Text>  */}
+        
+         <Card animot={card.animot} />
+        
         <AppButton 
           title="Terminer la partie"
           size="sm"

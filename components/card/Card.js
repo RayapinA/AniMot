@@ -56,13 +56,16 @@ import mouetteVisuel from '../../assets/animaux/animotMouette.png'
 import perroquetVisuel from '../../assets/animaux/animotPerroquet.png'
 import lamaVisuel from '../../assets/animaux/animotLama.png'
 import vacheVisuel from '../../assets/animaux/animotVache.png'
+import CountDown from 'react-native-countdown-component';
+
 
 
 export class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visuelAnimot : ''
+      visuelAnimot : '',
+      showCountDown : true
     }
   }
   
@@ -294,7 +297,6 @@ export class Card extends Component {
       });
     }
 
-
     if(this.props.animot == 'bear'){
       this.setState({
         visuelAnimot : bearVisuel,
@@ -321,19 +323,49 @@ export class Card extends Component {
       });
     }
   }
+  CountDownFinish(){
+    this.setState({
+      showCountDown : false,
+    });
+  }
 
   render() {
-    const { visuelAnimot } = this.state
+    const { visuelAnimot,showCountDown } = this.state
     return (
       <View style={styles.container}>
-        <View 
-            style={styles.viewImgVisuel}
-            >
-          <Image
-            source={visuelAnimot} 
-            style={styles.imgVisuel}
-          />
-        </View>
+        { showCountDown == false && 
+          <View 
+              style={styles.viewImgVisuel}
+              >
+        <Text style={styles.titleTextContent}> Tu es {this.props.animot} </Text> 
+
+            { this.props.animot != 'Braconnier' && 
+              <Image
+              source={visuelAnimot} 
+              style={styles.imgVisuel}
+            />
+            }
+          </View>
+        }
+        { showCountDown == true && 
+          <View 
+              style={styles.viewImgVisuel}
+              >
+            <CountDown
+              size={50}
+              // Pour avoir un seul chiffre modifier ligne 171 par cette ligne {this.renderDigit(digits.toString().substr(1,1))}
+              until={5}
+              onFinish={() => this.CountDownFinish()}
+              digitStyle={{backgroundColor: '#11ffee00'}}
+              digitTxtStyle={{color: '#1f8416'}}
+              timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
+              separatorStyle={{color: '#1CC625'}}
+              timeToShow={['S']}
+              timeLabels={{ s: null}}
+              showSeparator
+            />
+          </View>
+        }
       </View>
     )
   }
@@ -347,6 +379,7 @@ const styles = StyleSheet.create({
   imgVisuel : {
     width: 200,
     height: 200,
+    marginTop:40
     
   },
   viewImgVisuel : {
@@ -354,6 +387,16 @@ const styles = StyleSheet.create({
     marginBottom:15,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  titleTextContent : {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#0c6904',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+    marginTop : 8,
+    marginBottom : 8
   }
 
 })

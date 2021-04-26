@@ -62,7 +62,7 @@ export class GameScreenGameMaster extends Component {
     const { dataSource } = this.state
     const { gameTitle, playerNumbers, poachersNumbers  } = this.props.route.params;
 
-    let arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guépard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
+    let arrayAniMot = ['Chat','Chien','Rat','Hamster','Lapin','Souris','Vache','Mouton','Chevre','Cochon','Cheval','Ane','Poule','Paon','Abeilles','Moustique','Poisson','Requin','Dauphin','Gorille','Dromadaire','Chameau','Ours','Cobra','Elephant','Girafe','Aigle','Lion','Rhinoceros','Hippopotame','Zebre','Guepard','Crocodile','Ornithorynque','Autruche','Caribou','Orque','Baleine','Ours Polaire','Panda','Renard','Loup','Mouette','Perroquet','Lama']
     let nbPoacherAtribute = 0
 
     const animotNumbers = playerNumbers - poachersNumbers
@@ -148,7 +148,8 @@ export class GameScreenGameMaster extends Component {
       
       <SafeAreaView style={styles.container}>
         <View style={styles.titleCreation}>
-          <Text style={styles.titleText}> Attente de joueurs ...  </Text>
+          {/* TODOS variabiliser le titre */}
+          <Text style={styles.titleText}> Attente de joueurs ...  </Text> 
           <ScrollView showsVerticalScrollIndicator={false} > 
         {
           dataSource.map((item, i) => (
