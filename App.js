@@ -9,7 +9,7 @@ const config  = {
 if(firebase.apps.length === 0){
   firebase.initializeApp(config);
 }
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -34,12 +34,14 @@ import CardPlayer from './components/card/CardPlayer'
     }
   }
    render() {
+      const headerShownBoolean = Platform.OS === 'ios' ? true : false
+      
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName = "Landing">
-          <Stack.Screen name='Landing' component={LandingScreen} options={{headerShown: false}} />
-          <Stack.Screen name='InterfaceGameMasterCreation' component={InterfaceGameMasterCreation} options={{headerShown: false}} />
-          <Stack.Screen name='InterfacePlayerJoin' component={InterfacePlayerJoin} options={{headerShown: false}} />
+          <Stack.Screen name='Landing' component={LandingScreen} options={{headerShown: false, headerTitle: 'Retour'}} />
+          <Stack.Screen name='InterfaceGameMasterCreation' component={InterfaceGameMasterCreation} options={{headerShown: headerShownBoolean, headerTitle: ''}} />
+          <Stack.Screen name='InterfacePlayerJoin' component={InterfacePlayerJoin} options={{headerShown: headerShownBoolean, headerTitle: ''}} />
           <Stack.Screen name='GameScreenPlayer' component={GameScreenPlayer} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenGameMaster' component={GameScreenGameMaster} options={{headerShown: false}} />
           <Stack.Screen name='GameScreenPLayersCard' component={GameScreenPLayersCard} options={{headerShown: false}} />
